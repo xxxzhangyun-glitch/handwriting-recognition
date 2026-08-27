@@ -1,6 +1,6 @@
 # 手写数字识别网站
 
-这是一个基于 Flask、PyTorch 和 MNIST 卷积神经网络模型的手写数字识别网站。项目用于识别 `0–9` 的单个手写数字，提供单张图片识别、批量图片识别和网页手写输入识别三项功能。
+这是一个基于 Flask、ONNX Runtime 和 MNIST 卷积神经网络模型的手写数字识别网站。模型由 PyTorch 训练，并转换为低内存的 ONNX 格式进行线上推理。项目用于识别 `0–9` 的单个手写数字，提供单张图片识别、批量图片识别和网页手写输入识别三项功能。
 
 ## 功能
 
@@ -29,7 +29,7 @@
 ## 技术栈
 
 - Flask：网站和识别接口
-- PyTorch / torchvision：模型加载和图片预处理
+- ONNX Runtime：低内存模型加载与推理
 - Pillow：图片读取与转换
 - HTML、CSS、JavaScript Canvas：网页界面和手写输入
 - Gunicorn：线上部署
@@ -39,7 +39,7 @@
 ```text
 handwriting-recognition/
 ├── app.py                         # Flask 应用与识别逻辑
-├── models/MNISTMODELV0.pth        # 训练好的识别模型
+├── models/MNISTMODELV0.onnx       # 用于部署的 ONNX 识别模型
 ├── templates/                     # 网页模板
 ├── static/style.css               # 页面样式
 ├── requirements.txt               # Python 依赖

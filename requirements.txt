@@ -1,6 +1,5 @@
 Flask
-torch
-torchvision
 Pillow
 numpy
 gunicorn
+onnxruntime
