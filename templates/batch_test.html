@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>批量测试</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div class="header-title">批量测试</div>
+            <div class="header-sub">批量上传多张图片，统计识别准确率</div>
+        </div>
+        <div>
+            <a href="/" class="btn-outline">返回首页</a>
+        </div>
+    </div>
+    <div class="card" style="max-width:600px;">
+        <form method="post" enctype="multipart/form-data" style="display:flex;flex-direction:column;align-items:center;">
+            <label style="width:100%;border:2px dashed #3B4FE4;border-radius:8px;padding:32px 0;text-align:center;cursor:pointer;margin-bottom:18px;">
+                <input type="file" name="files" accept=".png" multiple required style="display:none;">
+                <span style="font-size:1.1rem;color:#3B4FE4;">点击或拖拽上传多张PNG图片</span>
+            </label>
+            <button type="submit" class="btn-main">上传并测试</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+    {% if results %}
+    <div class="card" style="max-width:900px;">
+        <div style="font-size:1.1rem;color:#6B7280;margin-bottom:12px;">测试结果</div>
+        <table class="table">
+            <tr><th>图片</th><th>文件名</th><th>识别结果</th><th>真实标签</th><th>是否正确</th></tr>
+            {% for r in results %}
+            <tr>
+                <td><img src="/uploads/{{ r.filename }}" alt="图片" style="width:40px;height:40px;object-fit:contain;border-radius:6px;"></td>
+                <td>{{ r.filename }}</td>
+                <td>{{ r.pred }}</td>
+                <td>{{ r.label }}</td>
+                <td>{% if r.is_correct is not none %}{{ '✔' if r.is_correct else '✘' }}{% else %}-{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div style="margin-top:18px;text-align:right;color:#3B4FE4;font-weight:600;">准确率：{% if acc is not none %}{{ (acc*100)|round(2) }}%{% else %}-{% endif %}</div>
+    </div>
+    {% endif %}
+    <div class="footer">
+        &copy; 2024 MNIST手写数字识别平台
+    </div>
+</body>
+</html> 

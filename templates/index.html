@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>MNIST手写数字识别</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div class="header-title">MNIST手写数字识别</div>
+            <div class="header-sub">基于深度学习的手写数字智能识别平台</div>
+        </div>
+        <div>
+            <button class="btn-outline">登录/升级</button>
+        </div>
+    </div>
+    <div class="card-group">
+        <div class="card-feature">
+            <div class="icon">📤</div>
+            <div style="font-size:1.2rem;font-weight:600;">图片上传识别</div>
+            <div style="color:#6B7280;font-size:0.98rem;margin:8px 0 0 0;">上传PNG图片，自动识别手写数字</div>
+            <a href="/upload" class="btn-main">立即上传</a>
+        </div>
+        <div class="card-feature">
+            <div class="icon">📊</div>
+            <div style="font-size:1.2rem;font-weight:600;">批量测试</div>
+            <div style="color:#6B7280;font-size:0.98rem;margin:8px 0 0 0;">批量上传多张图片，统计识别准确率</div>
+            <a href="/batch" class="btn-main">批量测试</a>
+        </div>
+        <div class="card-feature">
+            <div class="icon">✏️</div>
+            <div style="font-size:1.2rem;font-weight:600;">手写输入识别</div>
+            <div style="color:#6B7280;font-size:0.98rem;margin:8px 0 0 0;">网页手写输入，实时识别结果</div>
+            <a href="/draw" class="btn-main">手写识别</a>
+        </div>
+    </div>
+    <div class="card" style="max-width:700px;text-align:center;">
+        <div style="font-size:1.1rem;color:#6B7280;margin-bottom:12px;">平台统计</div>
+        <div style="display:flex;justify-content:space-around;align-items:center;gap:24px;">
+            <div>
+                <div style="font-size:2.2rem;font-weight:700;">1234</div>
+                <div style="color:#6B7280;">累计识别次数</div>
+            </div>
+            <div>
+                <div style="font-size:2.2rem;font-weight:700;">98.7%</div>
+                <div style="color:#6B7280;">平均准确率</div>
+            </div>
+            <div>
+                <div style="font-size:2.2rem;font-weight:700;">2024-06-01</div>
+                <div style="color:#6B7280;">最近识别日期</div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; 2024 MNIST手写数字识别平台 | Powered by Flask &amp; PyTorch
+    </div>
+</body>
+</html> 

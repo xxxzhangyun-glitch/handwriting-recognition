@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>手写输入识别</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .draw-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #canvas {
+            border: 2px solid #3B4FE4;
+            background: #000;
+            border-radius: 8px;
+            cursor: crosshair;
+            margin-bottom: 18px;
+            display: block;
+        }
+        .result {
+            margin-top: 18px;
+            font-size: 32px;
+            color: #3B4FE4;
+            font-weight: bold;
+            text-align: center;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .tool-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            background: var(--main-blue);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .tool-btn:active {
+            background: #2233a8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div class="header-title">手写输入识别</div>
+            <div class="header-sub">网页手写输入，实时识别结果</div>
+        </div>
+        <div>
+            <a href="/" class="btn-outline">返回首页</a>
+        </div>
+    </div>
+    <div class="card" style="max-width:600px;margin:0 auto;">
+        <div class="draw-center">
+            <canvas id="canvas" width="320" height="320"></canvas>
+            <div class="toolbar">
+                <button class="tool-btn" onclick="clearCanvas()" title="清空">🧹</button>
+                <button class="tool-btn" onclick="predict()" title="识别">🔍</button>
+            </div>
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; 2024 MNIST手写数字识别平台
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        ctx.lineWidth = 16;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#fff';
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        function getPos(e) {
+            if (e.touches) {
+                return {x: e.touches[0].clientX - canvas.getBoundingClientRect().left, y: e.touches[0].clientY - canvas.getBoundingClientRect().top};
+            } else {
+                return {x: e.offsetX, y: e.offsetY};
+            }
+        }
+        canvas.addEventListener('mousedown', e => { drawing = true; ctx.beginPath(); });
+        canvas.addEventListener('mouseup', e => { drawing = false; });
+        canvas.addEventListener('mouseout', e => { drawing = false; });
+        canvas.addEventListener('mousemove', e => {
+            if (!drawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        });
+        canvas.addEventListener('touchstart', e => { drawing = true; ctx.beginPath(); });
+        canvas.addEventListener('touchend', e => { drawing = false; });
+        canvas.addEventListener('touchcancel', e => { drawing = false; });
+        canvas.addEventListener('touchmove', e => {
+            if (!drawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            e.preventDefault();
+        });
+        function clearCanvas() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        function predict() {
+            const dataURL = canvas.toDataURL('image/png');
+            const formData = new FormData();
+            formData.append('image', dataURL);
+            fetch('/draw', {method: 'POST', body: formData})
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('result').innerText = '识别结果：' + data.pred;
+                });
+        }
+    </script>
+</body>
+</html> 

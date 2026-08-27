@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>识别结果</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .result-card {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            justify-content: center;
+            margin: 32px 0 24px 0;
+        }
+        .result-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #F5F7FA;
+            border: 1.5px solid #E5E7EB;
+        }
+        .result-info {
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .result-info strong {
+            font-size: 1.2rem;
+        }
+        .result-actions {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+        }
+        .btn-main {
+            background: var(--main-blue);
+            color: #fff;
+            border-radius: 6px;
+            border: none;
+            padding: 12px 32px;
+            font-weight: 600;
+            font-size: 18px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .btn-main:hover {
+            background: #2233a8;
+        }
+    </style>
+</head>
+<body>
+    <div class="card" style="max-width:520px;margin:48px auto 0 auto;">
+        <h2 style="text-align:center;margin-bottom:24px;">识别结果</h2>
+        <div class="result-card">
+            <img src="/uploads/{{ filename }}" alt="上传图片" class="result-img">
+            <div class="result-info">
+                <div>识别结果：<strong>{{ pred }}</strong></div>
+                {% if is_correct is not none %}
+                <div>是否正确：<strong style="color:{{ 'green' if is_correct else 'red' }}">{{ '✔' if is_correct else '✘' }}</strong></div>
+                <div>本次准确率：<strong>{{ (acc*100)|round(2) }}%</strong></div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="result-actions">
+            <a href="/upload" class="btn-main">继续识别</a>
+            <a href="/" class="btn-main">返回首页</a>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; 2024 MNIST手写数字识别平台
+    </div>
+</body>
+</html> 

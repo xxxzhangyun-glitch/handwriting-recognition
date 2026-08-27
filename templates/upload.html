@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>图片上传识别</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div class="header-title">图片上传识别</div>
+            <div class="header-sub">上传PNG图片，自动识别手写数字</div>
+        </div>
+        <div>
+            <a href="/" class="btn-outline">返回首页</a>
+        </div>
+    </div>
+    <div class="card" style="max-width:520px;">
+        <form method="post" enctype="multipart/form-data" style="display:flex;flex-direction:column;align-items:center;">
+            <label style="width:100%;border:2px dashed #3B4FE4;border-radius:8px;padding:32px 0;text-align:center;cursor:pointer;margin-bottom:18px;">
+                <input type="file" name="file" accept=".png" required style="display:none;">
+                <span style="font-size:1.1rem;color:#3B4FE4;">点击或拖拽上传PNG图片</span>
+            </label>
+            <button type="submit" class="btn-main">上传并识别</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+    <div class="footer">
+        &copy; 2024 MNIST手写数字识别平台
+    </div>
+</body>
+</html> 
